@@ -1,0 +1,68 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node*next;
+};
+struct node*insert1(struct node*pt,int value){
+	struct node*temp;
+	struct node*ptr1=(struct node*)malloc(sizeof(struct node));
+	ptr1->data=value;
+	ptr1->next=NULL;
+	if(pt==NULL){
+		ptr1->next=pt;
+		pt=ptr1;
+	}
+	else{
+		temp=pt;
+		while(temp->next!=NULL){
+			temp=temp->next;
+		}
+		ptr1->next=temp->next;
+		temp->next=ptr1;
+	}
+	return pt;
+}
+struct node*rotate(struct node*head,int z){
+	int i=0;
+	struct node*temp=head;
+	struct node*temp1=head;
+	while(i<z){
+		temp1=temp1->next;
+		i++;
+	}
+	while(temp1->next!=NULL){
+		temp=temp->next;
+		temp1=temp1->next;
+	}
+	struct node*temp2;
+	temp2=temp->next;
+	temp->next=NULL;
+	temp1->next=head;
+	head=temp2;
+	return head;
+	}
+void traverse(struct node*ptr){
+	while (ptr!=NULL){
+		printf("Elements : %d\n",ptr->data);
+		ptr=ptr->next;
+	}
+}
+int main()
+{
+	struct node*head1=NULL;
+	
+	int n,z;
+	printf("Enter the number of elements : \n");
+	scanf("%d",&n);
+	int value;
+	for(int i=0;i<n;i++){
+		printf("Enter the %d element : \n",i+1);
+		scanf("%d",&value);
+		head1=insert1(head1,value);
+	}
+	printf("Enter the number of rotation : \n");
+	scanf("%d",&z);
+	head1=rotate(head1,z);
+	traverse(head1);
+}

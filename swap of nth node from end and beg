@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node* next;
+};
+struct node* insert1(struct node* head,int n){
+	struct node*ptr;
+	struct node* temp=(struct node*)malloc(sizeof(struct node));
+	temp->data=n;
+	temp->next=NULL;
+	if(head==NULL){
+		temp->next=head;
+		head=temp;
+	}
+	else{
+	ptr=head;
+	while(ptr->next!=NULL){	
+		ptr=ptr->next;
+	}
+	temp->next=ptr->next;
+	ptr->next=temp;
+}
+	return head;
+
+}
+struct node*merge(struct node*head,int k){
+	struct node*temp;
+	struct node*x=head;
+	struct node*x1=NULL;
+	struct node*y=head;
+	struct node*y1=NULL;
+	struct node*temp1=head;
+	int n;
+	while(temp1!=NULL){
+		n++;
+		temp1=temp1->next;
+	}
+	
+	for(int i=1;i<k;i++){
+		x1=x;
+		x=x->next;
+	}
+	for(int i=1;i<(n-k+1);i++){
+		y1=y;
+		y=y->next;
+	}
+	if(x1){
+		x1->next=y;
+	}
+	if(y1){
+		y1->next=x;
+	}
+	temp=x->next;
+	x->next=y->next;
+	y->next=temp;
+	if(k==1){
+		head=y;
+	}
+	if(k==n){
+		head=x;
+	}
+	return head;
+}
+void traversal(struct node*ptr){
+	while(ptr!=NULL){
+		printf("%d\n",ptr->data);
+		ptr=ptr->next;
+	}
+}
+int main()
+{
+	struct node*head=NULL;
+	int n,k,val;
+	printf("Enter the number of nodes :\n");
+	scanf("%d",&n);
+	for(int i=0;i<n;i++){
+		printf("Enter the %d element :\n",i+1);
+		scanf("%d",&val);
+		head=insert1(head,val);
+	}
+	printf("Enter the value to swap :\n");
+	scanf("%d",&k);
+	head=merge(head,k);
+	traversal(head);
+}
